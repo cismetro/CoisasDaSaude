@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Acesso</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Colors from wt_health_center_free Template */
+            --primary-color: #4fc9c4; /* Template primary turquoise */
+            --primary-dark: #43aca7; /* Darker turquoise for hover states */
+            --primary-hover: #3c9b96; /* Even darker for active states */
+            --secondary-color: #6d7a8c; /* Template secondary */
+            --text-color: #3f485d; /* Template default text color */
+            --border-color: #e5e5e5; /* Template default border */
+            --success-color: #79b24a; /* Template success green */
+            --warning-color: #f2823c; /* Template warning orange */
+            --danger-color: #e81d51; /* Template danger red */
+            --info-color: #91ceff; /* Template info blue */
+            
+            /* Additional colors */
+            --light-color: #f8f9fa;
+            --dark-color: #2a303b; /* Template bottom_bg_color */
+            --gray-color: #6d7a8c; /* Template footer text color */
+            --input-focus: #4fc9c4; /* Template primary color for focus */
+            --input-focus-shadow: rgba(79, 201, 196, 0.25); /* Template shadow */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--light-color);
+        }
+
+        /* Light/Dark mode support */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --light-color: #1a1e24;
+                --text-color: #e2e4e8;
+                --border-color: #3f485d;
+            }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        nav {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            display: flex;
+        }
+
+        .nav-list {
+            display: flex;
+            list-style: none;
+            width: 100%;
+            justify-content: space-around;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            display: block;
+            text-decoration: none;
+            color: var(--text-color);
+            padding: 1rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-link.active {
+            color: var(--primary-color);
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        main {
+            padding: 2rem 0;
+            min-height: calc(100vh - 180px);
+        }
+
+        .site-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .site-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .site-card h2 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .site-card p {
+            margin-bottom: 1rem;
+        }
+
+        .site-card .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .site-card .btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        footer {
+            background-color: var(--dark-color);
+            color: white;
+            padding: 1.5rem 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-links {
+            margin-bottom: 1rem;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 0.5rem;
+        }
+
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+
+        /* Dark mode styles */
+        @media (prefers-color-scheme: dark) {
+            nav {
+                background-color: var(--dark-color);
+            }
+            
+            .nav-link {
+                color: var(--light-color);
+            }
+            
+            .site-card {
+                background-color: #2a303b;
+                color: var(--light-color);
+            }
+        }
+
+        /* Responsive styles */
+        @media screen and (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+
+            .nav-container {
+                flex-direction: column;
+            }
+
+            .nav-list {
+                flex-direction: column;
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+            }
+
+            .nav-list.active {
+                max-height: 500px;
+            }
+
+            .nav-link {
+                padding: 0.75rem 1rem;
+            }
+
+            .nav-link.active {
+                border-bottom: none;
+                border-left: 3px solid var(--primary-color);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">Portal de FERRAMENTAS - Auxilia na construção da INTRANET SAUDE</div>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+<!--
+    <nav>
+        <div class="container nav-container">
+            <ul class="nav-list" id="navList">
+                <li class="nav-item">
+                    <a href="https://atendeti.netlify.app/" class="nav-link" target="_blank">AtendeTI</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://integratingjoomlapython.netlify.app/" class="nav-link" target="_blank">Integrating Joomla Python</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://pncpbuscaritens.netlify.app/" class="nav-link" target="_blank">PNCP Buscar Itens</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://protocolosaude.netlify.app/" class="nav-link" target="_blank">Protocolo Saude</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://aprendajoomla.netlify.app" class="nav-link" target="_blank">Aprenda Joomla</a>
+                </li>
+				 <li class="nav-item">
+                    <a href="https://wampdirftp.netlify.app" class="nav-link" target="_blank">Instalação WampServer com Diretório Personalizado e FTP</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://imagebanner.netlify.app/" class="nav-link" target="_blank">Redimensionador de Imagens - Banner</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://imagebuttom.netlify.app/" class="nav-link" target="_blank">Redimensionador de Imagens - Buttom</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://imageconverterss.netlify.app/" class="nav-link" target="_blank">Conversor de Imagens</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://imgface.netlify.app/" class="nav-link" target="_blank">Img Facebook Downloader</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://imginsta.netlify.app/" class="nav-link" target="_blank">Img Instagran Downloader</a>
+                </li>
+				<li class="nav-item">
+                    <a href="https://apostilaps.netlify.app/" class="nav-link" target="_blank">Apostila Programação de Sistemas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://conversorarquivozip.netlify.app" class="nav-link" target="_blank">Conversor  Arquivos Zip</a>
+                </li>
+                <li class="nav-item">
+                    <a href="https://n8nlearn.netlify.app" class="nav-link" target="_blank">n8n - Aprenda</a>
+                </li>
+				<li class="nav-item">
+                    <a href="https://intranetsecretariadesaude.netlify.app" class="nav-link" target="_blank">Extensões Nescessárias</a>
+                </li>
+				<li class="nav-item">
+                    <a href="https://componentesuiux.netlify.app" class="nav-link" target="_blank">Componentes UiUx</a>
+                </li>
+				<li class="nav-item">
+                    <a href="https://servicosemremporealstr.netlify.app" class="nav-link" target="_blank">STR´s</a>
+                </li>
+				<li class="nav-item">
+                    <a href="https://n8nworkflowsbasicoseavancados.netlify.app" class="nav-link" target="_blank">n8n - Workflows Básicos & Avançados</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+-->
+
+    <main>
+        <div class="container">
+            <h1>Bem-vindo ao Portal de Ferramentas</h1>
+            <p>Selecione um dos sites abaixo para acessar:</p>
+
+            <div class="site-card">
+                <h2>AtendeTI</h2>
+                <p>Acesse o sistema de atendimento TI.</p>
+                <a href="https://atendeti.netlify.app/" class="btn" target="_blank">Acessar</a>
+            </div>
+           <div class="site-card">
+                <h2>PostIMG</h2>
+                <p>Publique a sua imagem aqui.</p>
+                <a href="  https://postimages.org/" class="btn" target="_blank">Acessar</a>
+            </div>
+            <div class="site-card">
+                <h2>RemoveBG</h2>
+                <p>Remova Fundos de Imagens.</p>
+                <a href="https://www.remove.bg/pt-br/" class="btn" target="_blank">Acessar</a>
+            </div>
+
+            <div class="site-card">
+                <h2>Integrating Joomla Python</h2>
+                <p>Apostila: Incorporação de Aplicações Python no Joomla.</p>
+                <a href="https://integratingjoomlapython.netlify.app/" class="btn" target="_blank">Acessar</a>
+            </div>
+
+            <div class="site-card">
+                <h2>PNCP Buscar Itens</h2>
+                <p>Consulta PNCP - Portal Nacional de Contratações Públicas.</p>
+                <a href="https://pncpbuscaritens.netlify.app/" class="btn" target="_blank">Acessar</a>
+            </div>
+
+            <div class="site-card">
+                <h2>Protocolo Saude</h2>
+                <p>Sistema de Protocolo - Geração e Assinatura.</p>
+                <a href="https://protocolosaude.netlify.app/" class="btn" target="_blank">Acessar</a>
+            </div>
+
+            <div class="site-card">
+                <h2>Aprenda Joomla</h2>
+                <p>Apostila Joomla - Aprenda a usar o sistema de gerenciamento de conteúdo.</p>
+                <a href="https://aprendajoomla.netlify.app" class="btn" target="_blank">Acessar</a>
+            </div>
+			<div class="site-card">
+                <h2>Wamp Dir FTP</h2>
+                <p>Instalação WampServer com Diretório Personalizado e FTP.</p>
+                <a href="https://wampdirftp.netlify.app" class="btn" target="_blank">Acessar</a>
+            </div>
+            <div class="site-card">
+                <h2>Image Banner  - Imagens para Bunner Jommla.</h2>
+                <p>Arraste e solte para redimensionar a imagens - 2537×1136 pixels com resolução de 300 DPI e profundidade de 24 bits.</p>
+                <a href="https://imagebanner.netlify.app/" class="btn" target="_blank">Acessar</a>
+            </div>
+            <div class="site-card">
+                <h2>Image Buttom - Imagens para Buttom Jommla</h2>
+                <p>Arraste e solte para redimensionar a imagens -  314×191 pixels com resolução de 96 DPI e profundidade de 24 bits.</p>
+                <a href="https://imagebuttom.netlify.app/" class="btn" target="_blank">Acessar</a>
+            </div>
+            <div class="site-card">
+                <h2>Image Converter - Conversor de Imagens</h2>
+                <p>Arraste e solte suas imagens para convertê-las para diferentes formatos.</p>
+                <a href="https://imageconverterss.netlify.app/" class="btn" target="_blank">Acessar</a>
+            </div>
+			<div class="site-card">
+                <h2>Image Merge - Juntador de Imagens</h2>
+                <p>Faça upload de múltiplas imagens e junte-as em um único arquivo.</p>
+                <a href="https://imagemerging.netlify.app" class="btn" target="_blank">Acessar</a>
+            </div>
+            <div class="site-card">
+                <h2>Image Dimenssões</h2>
+                <p>Ajustar dimenssões de imagens com Largura & Altura específica.</p>
+                <a href="https://imgdimensoes.netlify.app/" class="btn" target="_blank">Acessar</a>
+            </div>	
+
+            <div class="site-card">
+                <h2>Img Facebook Downloader</h2>
+                <p>Assistente para baixar imagens do facebook para a Secretaria da Saúde.</p>
+                <a href="https://imgface.netlify.app/" class="btn" target="_blank">Acessar</a>
+            </div>
+            <div class="site-card">
+                <h2>Img Instagran Downloader</h2>
+                <p>Assistente para baixar imagens do instagran para a Secretaria da Saúde.</p>
+                <a href="https://imginsta.netlify.app/" class="btn" target="_blank">Acessar</a>
+            </div>
+			<div class="site-card">
+                <h2>Apostila Programação de Sistemas</h2>
+                <p>Apostila para tirar rapidamente dúvidas que sugirem.</p>
+                <a href="https://apostilaps.netlify.app/" class="btn" target="_blank">Acessar</a>
+            </div>
+            <div class="site-card">
+                <h2>Sistema de conversão de arquivos</h2>
+                <p>Suba os arquivos em uma pasta zip para convertê-los.</p>
+                <a href="https://conversorarquivozip.netlify.app/" class="btn" target="_blank">Acessar</a>
+            </div>
+            <div class="site-card">
+                <h2>Ene 8 Ene - workflows</h2>
+                <p>O n8n é uma plataforma de automação de fluxos de trabalho.</p>
+                <a href="https://n8nlearn.netlify.app" class="btn" target="_blank">Acessar</a>
+            </div>
+			<div class="site-card">
+                <h2>Extensões Impressindíveis </h2>
+                <p>Resumo de extensões que não pode falar em um intranet para uma Secretaria de Saúde</p>
+                <a href="https://intranetsecretariadesaude.netlify.app" class="btn" target="_blank">Acessar</a>
+            </div>
+			<div class="site-card">
+                <h2>21 componentes essenciais de UI/UX</h2>
+                <p>Referência completa dos recursos mais utilizados no desenvolvimento de interfaces modernas!</p>
+                <a href="https://componentesuiux.netlify.app" class="btn" target="_blank">Acessar</a>
+            </div>
+			<div class="site-card">
+                <h2>Serviços em Tempo Real</h2>
+                <p>Serviços em tempo real com Python, Flask, WebSocket e SocketIO.</p>
+                <a href="https://servicosemremporealstr.netlify.app" class="btn" target="_blank">Acessar</a>
+            </div>	
+			<div class="site-card">
+                <h2>Workflows Básicos & Avançados</h2>
+                <p>n8n é uma ferramenta de automação de workflows muito poderosa.</p>
+                <a href="https://n8nworkflowsbasicoseavancados.netlify.app" class="btn" target="_blank">Acessar</a>
+            </div>	
+			<div class="site-card">
+                <h2>Tipos de Notificações</h2>
+                <p>Toast, Modal, Banner, Snackbar com Dashboard Administrativo.</p>
+                <a href="https://notificacoestipos.netlify.app" class="btn" target="_blank">Acessar</a>
+            </div>	
+			<div class="site-card">
+                <h2>Torne-se um Especialista em IA - Comece Agora!</h2>
+                <p>A melhor maneira de prever o futuro é criá-lo com IA</p>
+                <a href="https://iaacademy.netlify.app" class="btn" target="_blank">Acessar</a>
+            </div>	
+			<div class="site-card">
+                <h2>Aprenda mais sobre o GitHub!</h2>
+                <p>O GuiHub oferece muitos recursos, aprenda-os.</p>
+                <a href="https://tutorialgithub.netlify.app" class="btn" target="_blank">Acessar</a>
+            </div>	
+			<div class="site-card">
+                <h2>Compressor de arquivos</h2>
+                <p>Comprima arquivos .PDF para enviar facilmente por e-mail</p>
+                <a href="https://www.ilovepdf.com/pt/comprimir_pdf" class="btn" target="_blank">Acessar</a>
+            </div>	
+			<div class="site-card">
+                <h2>Baixar Videos / Fotos do Facebook</h2>
+                <p>Baixar fotos ou videos do facebook  com tamanho normal</p>
+                <a href="https://baixarfotosface.netlify.app" class="btn" target="_blank">Acessar</a>
+            </div>	
+			<div class="site-card">
+                <h2>API´S </h2>
+                <p>API´s essenciais & seus links</p>
+                <a href="https://apiuteis.netlify.app" class="btn" target="_blank">Acessar</a>
+            </div>	
+			<div class="site-card">
+                <h2>Link para CSS (Uso niver intranet)</h2>
+				<p>Os CSS  irão ser usados para referenciar os stilos externamente para as homenagens de aniversariantes na intranet, Modulo & Homenagens</p>
+                <p>https://cssintranetsaude.netlify.app/assets/css/styles-fotos-homenagens.css</p>
+				<p>https://cssintranetsaude.netlify.app/assets/css/styles-template-saude.css</p>
+            </div>	
+			
+			
+			
+			
+			
+        </div>
+    </main>
+
+    <footer>
+            <p>&copy; 2025 Portal de Acesso. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // Toggle mobile menu
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navList = document.getElementById('navList');
+
+        mobileMenuBtn.addEventListener('click', function() {
+            navList.classList.toggle('active');
+        });
+
+        // Add active class to current page link
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            // Check for dark mode preference
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                document.documentElement.classList.add('dark');
+            }
+            
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
+                if (event.matches) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
